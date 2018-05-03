@@ -1,15 +1,14 @@
-import { createStore } from 'redux'
-import { SHOW_PLAYER, SHOW_HEROS } from './actionstype'
+import { createStore, combineReducers } from 'redux'
+import playerReducers from './player/player.reducer'
+import heroReducers from './hero/hero.reducer'
 
-const reducers = (state={player:{},heros:{}},actions) => {
-  switch(actions.type){
-    case SHOW_PLAYER :
-      return ({...state,player:actions.payload})
-    case SHOW_HEROS:
-      return ({...state,heros:actions.payload})
-  }
-}
+const reducers = combineReducers({
+  player: playerReducers,
+  hero: heroReducers
+})
 
-const store = createStore(reducers,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore(
+  reducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 export default store;

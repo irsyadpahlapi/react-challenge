@@ -7,7 +7,7 @@ import logo from './logo.svg';
 import Home from './components/Home.jsx'
 import Teams from './components/404.jsx'
 import Detail from './components/DetailHero.jsx'
-import { players } from './store/player.actions'
+import { players } from './store/player/player.actions'
 import axios from 'axios';
 
 class App extends Component {
@@ -23,11 +23,8 @@ class App extends Component {
   }
 
   render() {
-
-    if ( this.props.player) {
       return (
         <Router>
-
           <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
@@ -36,9 +33,9 @@ class App extends Component {
             <div className="container">
               <div className="col-3" align="center">
                 <div className="kiri">
-                  <img src={this.props.player.player.avatar} />
-                  <br />
-                  {this.props.player.player.name}
+                  <img src={this.props.player.avatar} />
+                  <br/>
+                  {this.props.player.name}
                 </div>
               </div>
               <div className="kanan col-8">
@@ -52,14 +49,11 @@ class App extends Component {
           </div>
         </Router>
       );
-    }  else {
-      return <img src="http://media.lastgif.com/gifs/21715.gif" alt="team" width="500" height="500" style={{marginLeft:'400px'}}/>
-    }
   }
 }
 
 const mapStateToProps = (state) => ({
-  player: state
+  player: state.player
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
