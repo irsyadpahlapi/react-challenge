@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
+import { BrowserRouter as  Route, Link } from "react-router-dom"
 import axios from 'axios';
+import store from './../store'
 
 class Home extends Component {
   constructor() {
@@ -11,14 +12,27 @@ class Home extends Component {
       heros: [],
       heros10: []
     }
+
+    store.subscribe(() => {
+      const newData = store.getState().heros
+      console.log(newData);
+      this.setState(() => ({
+        heros: newData.heros,
+        heros10: newData.heros10
+      }))
+    })
   };
   componentDidMount() {
     axios.get('https://api.opendota.com/api/heroes')
     .then ( response => {
-      this.setState(prevState => ({
+      const obj = {
         heros: response.data,
         heros10: response.data.slice(0,9)
-      }))
+      }
+      store.dispatch({
+        type:'SHOW_HEROS',
+        payload: obj
+      })
     })
   }
   prevs () {
@@ -48,11 +62,13 @@ class Home extends Component {
             this.state.heros10.map(hero => {
               return (
                 <div className="item col-4" key={hero.id}>
-                  <img src={`https://api.adorable.io/avatars/191/${hero.localized_name}`} />
+                  {
+                    hero.id === 1
+                  }
+                  <img src={`http://cdn.dota2.com/apps/dota2/images/heroes/${hero.name.substr(14)}_lg.png`} />
                   <br />
-                  {hero.localized_name}
-                  <br />
-                  <Link to={`/${hero.id}`}>detail</Link>
+                  <span style={{float:'left',marginLeft:'40px'}}>{hero.localized_name}</span>
+                  <span style={{float:'right', marginRight:'40px'}}><Link to={`/detail/${hero.id}`}>detail</Link></span>
                 </div>
               )
             })
@@ -60,10 +76,10 @@ class Home extends Component {
         </div>
         <div style={{textAlign:'center'}}>
           {
-            this.state.idprev > 0 ?<button onClick={this.prevs.bind(this)}>prev</button>:""
+            this.state.idprev > 0 ? <button onClick={this.prevs.bind(this)}>prev</button>:""
           }
           {
-            this.state.idnext < 110 ?<button onClick={this.nexts.bind(this)}>next</button>:""
+            this.state.idnext < 110 ? <button onClick={this.nexts.bind(this)}>next</button>:""
           }
         </div>
 

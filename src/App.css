@@ -34,7 +34,7 @@
 .col-12 {width: 100%;}
 
 .App-logo {
-  animation: App-logo-spin infinite 360s linear;
+  animation: App-logo-spin infinite 1s linear;
   height: 80px;
 }
 

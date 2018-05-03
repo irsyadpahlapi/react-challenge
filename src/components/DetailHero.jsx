@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
 import axios from 'axios';
 
 class Detail extends Component {
@@ -17,7 +16,7 @@ class Detail extends Component {
       response.data.map(data =>{
         if (this.props.match.params.id == data.id){
           this.setState(() => ({
-            name: data.localized_name,
+            name: data.name,
             attack: data.attack_type,
             roles: data.roles
           }))
@@ -28,7 +27,8 @@ class Detail extends Component {
   render() {
     return (
       <div className="showitems" >
-        <h1>{this.state.name}</h1>
+        <img src={`http://cdn.dota2.com/apps/dota2/images/heroes/${this.state.name.substr(14)}_lg.png`} />
+        <h1>{this.state.name.substr(14)}</h1>
         <ul>
           <li>attack type : {this.state.attack}</li>
           <li>roles:
