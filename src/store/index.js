@@ -1,13 +1,12 @@
 import { createStore } from 'redux'
-import axios from 'axios'
+import { SHOW_PLAYER, SHOW_HEROS } from './actionstype'
 
 const reducers = (state={player:{},heros:{}},actions) => {
   switch(actions.type){
-    case 'SHOW_PLAYER' :
+    case SHOW_PLAYER :
       return ({...state,player:actions.payload})
-    case 'SHOW_HEROS':
+    case SHOW_HEROS:
       return ({...state,heros:actions.payload})
-
   }
 }
 
