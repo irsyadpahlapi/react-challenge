@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+import { bindActionCreators } from 'redux'
+import { heros } from './../store/hero/hero.actions'
 import axios from 'axios';
 
 class Detail extends Component {
@@ -11,9 +15,8 @@ class Detail extends Component {
     }
   };
   componentDidMount() {
-    axios.get('https://api.opendota.com/api/heroes')
-    .then ( response => {
-      response.data.map(data =>{
+    if (this.props.hero.data.heros) {
+      this.props.hero.data.heros.map(data =>{
         if (this.props.match.params.id == data.id){
           this.setState(() => ({
             name: data.name,
@@ -22,7 +25,10 @@ class Detail extends Component {
           }))
         }
       })
-    })
+    } else {
+      this.props.history.push('/')
+    }
+
   }
   render() {
     return (
@@ -48,4 +54,7 @@ class Detail extends Component {
   }
 }
 
-export default Detail;
+const mapStateToProps = (state) => ({
+  hero: state.hero
+})
+export default connect(mapStateToProps,null)(Detail);

@@ -14,45 +14,36 @@ class Home extends Component {
       idnext: 9
     }
   }
-
-
   componentDidMount() {
-    axios.get('https://api.opendota.com/api/heroes')
-    .then ( response => {
-      const obj = {
-        heros: response.data,
-        heros10: response.data.slice(0,9)
-      }
-      this.props.heros(obj)
-    })
+    this.props.heros()
   }
 
   prevs () {
-    let prevpage = this.props.hero.heros10[0]
-    let index = this.props.hero.heros.findIndex( hero => hero.id === prevpage.id)
-    this.props.hero.heros10 = this.props.hero.heros.slice(index-9,index),
+    let prevpage = this.props.hero.data.heros10[0]
+    let index = this.props.hero.data.heros.findIndex( hero => hero.id === prevpage.id)
+    this.props.hero.data.heros10 = this.props.hero.data.heros.slice(index-9,index),
     this.setState({
       idprev: index-9,
       idnext: index
     })
   }
   nexts () {
-    let prevpage = this.props.hero.heros10[0]
-    let index = this.props.hero.heros.findIndex( hero => hero.id === prevpage.id) + 9
-      this.props.hero.heros10 = this.props.hero.heros.slice(index,index + 9)
+    let prevpage = this.props.hero.data.heros10[0]
+    let index = this.props.hero.data.heros.findIndex( hero => hero.id === prevpage.id) + 9
+      this.props.hero.data.heros10 = this.props.hero.data.heros.slice(index,index + 9)
       this.setState(() => ({
         idprev:index,
         idnext:index+9
       }))
   }
   render() {
-    if (this.props.hero.heros10) {
+    if (this.props.hero.data.heros10) {
       return (
         <div>
           <h3 style={{textAlign:'center'}}>name heros dota 2</h3>
           <div className="showitem" >
             {
-              this.props.hero.heros10.map(hero => {
+              this.props.hero.data.heros10.map(hero => {
                 return (
                   <div className="item col-4" key={hero.id}>
                     {
@@ -72,13 +63,13 @@ class Home extends Component {
               this.state.idprev > 0 ? <button onClick={this.prevs.bind(this)}>prev</button>:""
             }
             {
-              this.state.idnext < 110 ? <button onClick={this.nexts.bind(this)}>next</button>:""
+              this.state.idnext < 115 ? <button onClick={this.nexts.bind(this)}>next</button>:""
             }
           </div>
         </div>
       );
     } else {
-      return <h1>error</h1>
+      return <img src="http://media.lastgif.com/gifs/21715.gif" alt="team" width="500" height="250"/>
     }
   }
 }

@@ -8,24 +8,17 @@ import Home from './components/Home.jsx'
 import Teams from './components/404.jsx'
 import Detail from './components/DetailHero.jsx'
 import { players } from './store/player/player.actions'
-import axios from 'axios';
 
 class App extends Component {
   componentDidMount() {
-    axios.get('https://api.opendota.com/api/players/295645191')
-    .then ( response => {
-      const obj = {
-        name: response.data.profile.personaname,
-        avatar: response.data.profile.avatarfull
-      }
-      this.props.players(obj)
-    })
+    this.props.players()
   }
 
   render() {
       return (
         <Router>
           <div className="App">
+
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <h1 className="App-title">Welcome to Dotabuff</h1>
@@ -33,9 +26,13 @@ class App extends Component {
             <div className="container">
               <div className="col-3" align="center">
                 <div className="kiri">
-                  <img src={this.props.player.avatar} />
+                  {
+                    this.props.player.loading ? <img src="http://media.lastgif.com/gifs/21715.gif" alt="team" width="500" height="250"/>:""
+                  }
+                  <img src={this.props.player.data.avatar} />
                   <br/>
-                  {this.props.player.name}
+                  {this.props.player.data.name}
+
                 </div>
               </div>
               <div className="kanan col-8">
